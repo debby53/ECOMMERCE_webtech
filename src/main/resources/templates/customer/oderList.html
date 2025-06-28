@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+<h2 class="text-2xl font-bold mb-6">All Orders</h2>
+<table class="table-auto w-full border-collapse border border-gray-300">
+    <thead>
+    <tr class="bg-gray-200">
+        <th class="border px-4 py-2">ID</th>
+        <th class="border px-4 py-2">Customer</th>
+        <th class="border px-4 py-2">Status</th>
+        <th class="border px-4 py-2">Total Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td class="border px-4 py-2" th:text="${order.id}"></td>
+        <td class="border px-4 py-2" th:text="${order.customer.firstName} + ' ' + ${order.customer.lastName}"></td>
+        <td class="border px-4 py-2" th:text="${order.status}"></td>
+        <td class="border px-4 py-2" th:text="${order.totalAmount}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
