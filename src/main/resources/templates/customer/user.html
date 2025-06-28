@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Management</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>User Management</h2>
+
+<!-- Success / Error Messages -->
+<div th:if="${message}" style="color:green" th:text="${message}"></div>
+<div th:if="${error}" style="color:red" th:text="${error}"></div>
+
+<!-- User Form -->
+<form th:action="@{/user/update}" th:object="${userForm}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <label>Username:</label>
+    <input type="text" th:field="*{username}" required/><br/>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" required/><br/>
+
+    <label>Password (leave blank to keep current):</label>
+    <input type="password" th:field="*{password}"/><br/>
+
+    <label>Roles:</label><br/>
+    <div th:each="role : ${roles}">
+        <input type="checkbox" th:value="${role.name}" th:field="*{roleIds}"
+               th:checked="${userForm.roleIds.contains(role.name)}"/> <span th:text="${role.name}"></span><br/>
+    </div>
+
+    <label>Status:</label>
+    <select th:field="*{active}">
+        <option th:value="true">Active</option>
+        <option th:value="false">Inactive</option>
+    </select><br/><br/>
+
+    <button type="submit">Update User</button>
+</form>
+
+<!-- List Users -->
+<h3>All Users</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Active</th>
+        <th>Roles</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.active ? 'Yes' : 'No'}"></td>
+        <td>
+            <span th:each="role : ${user.roles}" th:text="${role.name} + ' '"></span>
+        </td>
+        <td>
+            <a th:href="@{/user/edit(id=${user.id})}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
